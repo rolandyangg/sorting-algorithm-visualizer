@@ -11,12 +11,17 @@ int main()
     float width = 1280;
     float height = 720;
 
-    std::string sortName = "Bubble Sort";
+    /**
+     0 = Bubble Sort
+     1 = Bogo Sort
+     */
+    std::string sortName = "Bogo Sort";
+    int sortType = 1;
 
     sf::RenderWindow window(sf::VideoMode(width, height), sortName);
     window.setFramerateLimit(0);
 
-    const int numBlocks = 90;
+    const int numBlocks = 6;
     float blockWidth = width / numBlocks;
     float blockHeight = height / numBlocks;
 
@@ -24,7 +29,7 @@ int main()
     int i = 0;
     int j = 0;
     int greenIndex = 0;
-    int accessed[2];
+    int accessed[2] = { -1, -1 }; // Set to -1 to avoid undefined behavior
     int comparisons = 0;
     bool isSorted = false;
 
@@ -50,33 +55,58 @@ int main()
                 window.close();
         }
 
-        // bubble sort
-        if (!isSorted) {
-            if (i < numBlocks - 1) {
-                if (j < numBlocks - i - 1) {
-                    accessed[0] = arr[j];
-                    accessed[1] = arr[j + 1];
-                    if (arr[j] > arr[j + 1]) {
-                        int temp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = temp;
+        switch (sortType) {
+            case 0: // bubble sort
+                if (!isSorted) {
+                    if (i < numBlocks - 1) {
+                        if (j < numBlocks - i - 1) {
+                            accessed[0] = arr[j];
+                            accessed[1] = arr[j + 1];
+                            if (arr[j] > arr[j + 1]) {
+                                int temp = arr[j];
+                                arr[j] = arr[j + 1];
+                                arr[j + 1] = temp;
+                            }
+                            comparisons++;
+                            j++;
+                        }
+                        else {
+                            i++;
+                            j = 0;
+                        }
+                        comparisons++;
+                    } else {
+                        isSorted = true;
                     }
                     comparisons++;
-                    j++;
                 }
                 else {
-                    i++;
-                    j = 0;
+                    if (greenIndex != numBlocks)
+                        greenIndex++;
                 }
-                comparisons++;
-            } else {
-                isSorted = true;
-            }
-            comparisons++;
-        }
-        else {
-            if (greenIndex != numBlocks)
-                greenIndex++;
+                break;
+            case 1: // bogo sort
+                if (!isSorted) {
+                    if (i < numBlocks - 1) {
+                        accessed[0] = arr[i];
+                        accessed[1] = arr[i + 1];
+                        if (arr[i] > arr[i + 1]) {
+                            std::shuffle(arr, arr + numBlocks, g);
+                            i = 0;
+                        } else {
+                            i++;
+                        }
+                        comparisons++;
+                    } else {
+                        isSorted = true;
+                    }
+                    comparisons++;
+                }
+                else {
+                    if (greenIndex != numBlocks)
+                        greenIndex++;
+                }
+                break;
         }
 
         // render
