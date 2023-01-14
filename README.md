@@ -3,9 +3,9 @@ wip
 
 implemented:
 bubble sort
+bogo sort
 
 todo:
-bogo sort
 selection sort
 insertion sort
 merge sort
