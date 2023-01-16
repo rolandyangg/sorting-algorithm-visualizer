@@ -20,7 +20,7 @@ Setup [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/) for your preferred I
 
 # Usage
 
-You may modify some variables in the script to produce certain results. Currently working on implementing the ability to change these options when the application is run.
+You may modify some variables in the script to output different results. Currently working on implementing the ability to change these options when the application is run.
 
 ```C++
 std::string sortName = "Sort" // Doesn't matter, this is the window name, change to whatever you want.
